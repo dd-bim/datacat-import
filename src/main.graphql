@@ -1,0 +1,76 @@
+mutation login($input: LoginInput!) {
+    login(input: $input)
+}
+
+query search($input: SearchInput!, $pageSize: Int, $pageNumber: Int) {
+    search(input: $input, pageSize: $pageSize, pageNumber: $pageNumber) {
+        nodes {
+            id
+            recordType
+            name
+            description
+            versionId
+            versionDate
+        }
+        totalElements
+    }
+}
+
+mutation addTag($input: CreateTagInput!) {
+    createTag(input: $input) {
+        tag {
+            id
+        }
+    }
+}
+
+query hasRecord($id: ID!) {
+    node(id: $id) {
+        id
+    }
+}
+
+query hasSubject($id: ID!) {
+    getSubject(id: $id) {
+        id
+    }
+}
+
+query hasPropertyGroup($id: ID!) {
+    search(input: {
+        idIn: [$id]
+        tagged: ["a27c8e3c-5fd1-47c9-806a-6ded070efae8"]
+    }) {
+        totalElements
+    }
+}
+
+mutation createRecord($input: CreateCatalogEntryInput!) {
+    createCatalogEntry(input: $input) {
+        catalogEntry {
+            ... on Concept {
+                id
+            }
+        }
+    }
+}
+
+mutation deleteRecord($input: DeleteCatalogEntryInput!) {
+    deleteCatalogEntry(input: $input) {
+        catalogEntry {
+            ... on Concept {
+                id
+            }
+        }
+    }
+}
+
+mutation createRelationship($input: CreateRelationshipInput!) {
+    createRelationship(input: $input) {
+        relationship {
+            ... on XtdRelationship {
+                id
+            }
+        }
+    }
+}
